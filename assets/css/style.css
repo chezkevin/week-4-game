@@ -1,0 +1,27 @@
+.col-sm-3 img{
+	height:125px;
+}
+h1{
+	text-align: center;
+	background-color: white;
+}
+h2{
+	background-color: #DDDDDD;
+	width: fit-content;
+}
+body{
+	background-image: url("../../assets/images/bg_pokemon_stadium2.png");
+}
+
+/*** dynamically built objects from game.js ***/
+.container-your-char{
+	background-color: #DDDDDD;
+	width: fit-content;
+	border: 1px solid #888888;
+}
+.char-img img{
+	height:125px;
+}
+.char-name{
+	text-align: center;
+}
