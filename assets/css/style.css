@@ -14,14 +14,15 @@ body{
 }
 
 /*** dynamically built objects from game.js ***/
-.container-your-char{
+.container-your-char, .defender{
 	background-color: #DDDDDD;
 	width: fit-content;
 	border: 1px solid #888888;
 }
-.char-img img{
+.char-img img, .defender-img img{
 	height:125px;
 }
-.char-name{
+.char-name, .char-hp,
+.defender-name, .data-defender-hp, .defender-img{
 	text-align: center;
 }
