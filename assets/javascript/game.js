@@ -7,18 +7,17 @@ function hideStart(){
 function findHp(pokemon){
 	// hard-code enemy HP. . .
 	if ( pokemon === 'Greninja' ){
-		var enemHp = 90;
+		return 90;
 	}
 	else if ( pokemon === 'M-Steelix' ){
-		var enemHp = 160;
+		return 160;
 	}
 	else if ( pokemon === 'Typhlosion'){
-		var enemHp = 110;
+		return 110;
 	}
 	else if ( pokemon === 'Nidoking'){
-		var enemHp = 140;
+		return 140;
 	}
-	return enemHp;
 }
 
 function turnBasedCombat(me,myHp,myAttack,enemy,enemyAttack,enemyHp){
@@ -33,6 +32,8 @@ $(document).ready(function(){
 	var charHp = 0;
 	var charAttack = 10;
 	var wins = 0;
+	var newStats;
+	var enemHp;
 
 		// When the user picks a Pokemon. . .
 		$('.choose').on('click',function() {
@@ -53,7 +54,7 @@ $(document).ready(function(){
 		// display as available enemies
 		function showEnemies(pokemonName){
 			for (var i = 0; i < pokemonNameArray.length; i++ ){
-				var enemName = pokemonNameArray[i];
+				enemName = pokemonNameArray[i];
 				if ( pokemonName != pokemonNameArray[i] ){
 
 					enemHp = findHp(pokemonNameArray[i]);
@@ -71,6 +72,7 @@ $(document).ready(function(){
 			$('.enemy').on('click',function() {
 				enemName = $(this).attr('name');
 				enemHp = findHp(enemName);
+				console.log(newStats);
 				// remove the chosen enemy from the "available enemies" section
 				$('.' + $(this).attr('name')).empty();
 				$(this).hide();
@@ -79,22 +81,26 @@ $(document).ready(function(){
 				$('.defender-img').html(' <img src="assets/images/char_'+ enemName +'.png"> ')
 				$('.data-defender-hp').html('HP: ' + enemHp);
 
-				$('.fight-button').on('click',function() {
-					var newStats = turnBasedCombat(charName,charHp,charAttack,enemName,10,enemHp);
-					console.log(newStats);
+				$('.fight-button').on('click',function(evt) {
+					evt.stopImmediatePropagation();
+					newStats = turnBasedCombat(charName,charHp,charAttack,enemName,10,enemHp);
+					console.log('newStats: ' + newStats);
+					//alert('fight!');
 					charHp = newStats[0];
 					charAttack = newStats[1];
 					enemHp = newStats[2];
 					if (charHp <= 0){
 						alert("Sorry. You lost all of your HP. Refresh the page to try again.");
 					}
-					else if (enemHp <= 0 ){
+					else if (enemHp <= 0 && charHp >= 0 ){
 						wins = wins + 1;
 						alert("You defeated " + enemName + "! Congratulations! Pick a new defender.");
+						enemName = '';
+						enemHp = 0;
 						$('.defender-name').empty();
 						$('.defender-img').empty();
 						$('.data-defender-hp').empty();
-						console.log("wins: " + wins);
+						//console.log("wins: " + wins);
 						if (wins === 3){
 							alert("Congratulations! You are a Pokemon Master.");
 							enemAttack = 0;
@@ -104,11 +110,6 @@ $(document).ready(function(){
 						$('.data-defender-hp').html('HP: ' + enemHp);
 						$('.char-hp').html('HP: ' + charHp);
 					}
-
-					console.log("your charname: " + charName);
-					console.log("you fought! Your new hp: " + charHp);
-					console.log("enem's new hp: "+ enemHp);
-
 				});
 			});
 		}
